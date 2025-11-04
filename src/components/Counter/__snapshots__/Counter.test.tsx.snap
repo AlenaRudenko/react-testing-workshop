@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Counter Component snapshot test for counter component 1`] = `
+<div>
+  <div
+    data-testid="counter-container"
+    style="display: flex; gap: 10px; flex-direction: column;"
+  >
+    <span>
+      Счетчик: 
+      0
+    </span>
+    <div>
+      <button>
+        Increment
+      </button>
+      <button>
+        Decrement
+      </button>
+    </div>
+  </div>
+</div>
+`;
