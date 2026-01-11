@@ -1,9 +1,13 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { LoginForm } from "./LoginForm";
 
+const consoleSpy = jest.spyOn(console, "error");
+
 describe("LoginForm component", () => {
   const mockOnSubmit = jest.fn();
-
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
   test("render login form correcttly", () => {
     render(<LoginForm onSubmit={mockOnSubmit} />);
 
@@ -56,6 +60,22 @@ describe("LoginForm component", () => {
 
       expect(submitButton).not.toBeDisabled();
       expect(submitButton).toHaveTextContent("Login");
+    });
+  });
+
+  test("submit with invalid credentials", async () => {
+    render(<LoginForm onSubmit={mockOnSubmit} />);
+    mockOnSubmit.mockRejectedValue(new Error("Invalid credentials"));
+    const usernameInput = screen.getByTestId("username-input");
+    const passwordInput = screen.getByTestId("password-input");
+    const submitButton = screen.getByTestId("submit-button");
+
+    fireEvent.change(usernameInput, { target: { value: "testuser" } });
+    fireEvent.change(passwordInput, { target: { value: "password123" } });
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(consoleSpy).toHaveBeenCalledTimes(1);
     });
   });
 });

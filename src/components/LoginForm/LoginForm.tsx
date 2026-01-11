@@ -33,7 +33,7 @@ export const LoginForm: FC<LoginFormProps> = ({ onSubmit }) => {
       await onSubmit({ userName, password });
     } catch (error) {
       setError("Ошибка входа, попробуйте еще раз");
-      console.log(error);
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
